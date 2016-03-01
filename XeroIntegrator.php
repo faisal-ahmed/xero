@@ -199,36 +199,3 @@ abstract class XeroIntegrator
 
     abstract public function doRequest();
 }
-
-class B2BControllerForDrupal extends XeroIntegrator
-{
-    public function __construct()
-    {
-        $this->resetWithDefaults();
-    }
-
-    public function doRequest()
-    {
-        if ( ($response = $this->buildRequestUri()) !== true) return $response;
-        return $this->sendCurl();
-    }
-
-    public function insertRecords($moduleName, $xmlArray)
-    {
-        $this->resetWithDefaults();
-        $this->setXeroModuleName("$moduleName");
-        $this->setRequestMethod('PUT');
-        if ( ($xmlSet = $this->setXeroXmlColumnNameAndValue($xmlArray)) !== true) return $xmlSet;
-
-        return $this->doRequest();
-    }
-
-    public function getRecordsOfXero($moduleName, $id)
-    {
-        $this->resetWithDefaults();
-        $this->setXeroModuleName("$moduleName");
-        $this->setXeroIdentifier($id);
-
-        return $this->doRequest();
-    }
-}
